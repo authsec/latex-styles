@@ -1,0 +1,245 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{authsec}[2021/11/15 KOMA Report Customizations]
+
+%%\RequirePackage{pagecolor}
+%%\pagecolor{yellow!30!orange}
+
+\RequirePackage{microtype}
+\RequirePackage{setspace}			% for line spacing, e.g. \onehalfspacing
+\RequirePackage{scrlayer-scrpage}
+
+% Select/setup fonts
+\RequirePackage[sc]{mathpazo} % Palatino with smallcaps
+\RequirePackage[scaled]{helvet} % Helvetica, scaled 95%
+\RequirePackage{eulervm} % Euler math
+\RequirePackage[T1]{fontenc}
+\RequirePackage{blindtext}
+\RequirePackage[backend=biber]{biblatex}
+\RequirePackage{imakeidx}
+\RequirePackage{tikz}
+\RequirePackage{xcolor}
+
+\RequirePackage{etoolbox}
+\RequirePackage{awesomebox}
+
+%% Define headers and footer
+%% \lohead{Peter Musterheinzel}
+%% \rohead{Seitenstile mit \KOMAScript}
+
+%% \lofoot{}
+%% \lefoot{}
+
+%% \cofoot{}
+%% \cefoot{}
+
+%% \rofoot{}
+%% \refoot{}
+
+%% Add chapter and section as page headers
+\automark[chapter]{chapter}
+\automark*[section]{}
+
+% **************************************************
+% Page construction
+% **************************************************
+\KOMAoption{headinclude}{false}     % include header in body?
+\KOMAoption{footinclude}{false}      % include footer in body?
+\KOMAoption{footlines}{2.1}         % number of foot lines
+\KOMAoption{mpinclude}{false}       % include marginpar in body?
+%% \KOMAoption{BCOR}{25mm}             % binding correction
+\KOMAoption{DIV}{12}                % number of page divs (divider)
+\KOMAoption{titlepage}{firstiscover}
+\KOMAoption{abstract}{true}
+\KOMAoption{toc}{indexnumbered}     % Assign a number (or letter in appendix) to the index.
+\KOMAoptions{%
+    listof=totocnumbered,%
+    bibliography=totoc%
+}
+
+%% Define colors
+\definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
+\definecolor{colorchapternumber}{cmyk}{.0, .43, 1, .02}
+\colorlet{colorchapterline}{colorchapternumber!45}
+
+
+\renewcommand*{\dictumwidth}{.5\textwidth}
+%% *************************
+%% Title Page
+%% *************************
+
+\DeclareFixedFont{\titlefont}{T1}{ppl}{b}{it}{0.5in}
+
+\makeatletter                       
+\def\printauthor{%                  
+  {\large \@author}}              
+\makeatother
+\author{%
+    Author name \\
+    Department name \\
+    \texttt{email2@example.com}
+}
+
+\newcommand\titlepagedecoration{%
+\begin{tikzpicture}[remember picture,overlay,shorten >= -10pt]
+
+\coordinate (aux1) at ([yshift=-15pt]current page.north east);
+\coordinate (aux2) at ([yshift=-410pt]current page.north east);
+\coordinate (aux3) at ([xshift=-4.5cm]current page.north east);
+\coordinate (aux4) at ([yshift=-150pt]current page.north east);
+
+\begin{scope}[titlepagecolor!40,line width=12pt,rounded corners=12pt]
+\draw
+  (aux1) -- coordinate (a)
+  ++(225:5) --
+  ++(-45:5.1) coordinate (b);
+\draw[shorten <= -10pt]
+  (aux3) --
+  (a) --
+  (aux1);
+\draw[opacity=0.6,titlepagecolor,shorten <= -10pt]
+  (b) --
+  ++(225:2.2) --
+  ++(-45:2.2);
+\end{scope}
+\draw[titlepagecolor,line width=8pt,rounded corners=8pt,shorten <= -10pt]
+  (aux4) --
+  ++(225:0.8) --
+  ++(-45:0.8);
+\begin{scope}[titlepagecolor!70,line width=6pt,rounded corners=8pt]
+\draw[shorten <= -10pt]
+  (aux2) --
+  ++(225:3) coordinate[pos=0.45] (c) --
+  ++(-45:3.1);
+\draw
+  (aux2) --
+  (c) --
+  ++(135:2.5) --
+  ++(45:2.5) --
+  ++(-45:2.5) coordinate[pos=0.3] (d);   
+\draw 
+  (d) -- +(45:1);
+\end{scope}
+\end{tikzpicture}%
+}
+
+\makeatletter
+\renewcommand{\maketitle}{{
+\pagenumbering{roman}
+\thispagestyle{empty}
+\noindent
+\titlefont \@title 
+\vspace*{2ex}
+\dictum[\textit{London 1941}\\G. H. Hardy]{Pure mathematics is on the whole distinctly more useful than applied. For what is useful above all is technique, and mathematical technique is taught mainly through pure mathematics.}%
+\null\vfill
+\vspace*{1cm}
+\noindent
+\hfill
+\begin{minipage}{0.35\linewidth}
+    \begin{flushright}
+        \printauthor
+    \end{flushright}
+\end{minipage}
+%
+\begin{minipage}{0.02\linewidth}
+    \rule{1pt}{63pt}
+\end{minipage}
+\titlepagedecoration
+\cleardoubleoddpage%
+}}
+\makeatother
+
+\AfterTOCHead[toc]{%
+%%  \pagenumbering{arabic}%
+  \thispagestyle{empty}%
+  \pagestyle{headings}}
+
+\addto{\captionsenglish}{\renewcommand{\abstractname}{Executive Summary}}
+\AtBeginEnvironment{abstract}{
+  \def\sectfont{\LARGE\selectfont}
+}
+
+% **************************************************
+% Text Format
+% **************************************************
+\setstretch{1.2}					% value for line spacing, use \setstretch{} or \singlespacing or \onehalfspacing or \doublespacing
+\KOMAoptions{DIV=last}                          % Satzspiegel neu berechnen
+%\setlength{\parindent}{0em}			% value for paragraph indentation
+\clubpenalty = 10000				% prevent single lines at the beginning of a paragraph (Schusterjungen)
+\widowpenalty = 10000				% prevent single lines at the end of a paragraph (Hurenkinder)
+\displaywidowpenalty = 10000		%
+
+%%\cleardoubleoddpage
+%%\pagestyle{headings}
+%%\pagenumbering{arabic}
+
+%% Redefine Chapter
+\RedeclareSectionCommand[
+  beforeskip=1sp,
+  afterindent=false,
+  font=\huge\mdseries
+]{chapter}
+
+\renewcommand*\chapterformat{%
+    \smash{\textcolor{colorchapterline}{\rule[-5pt]{2pt}{10cm}}}%
+    \quad%
+    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\thechapter}%
+}%
+
+\renewcommand*\chapterlinesformat[3]{%
+    \parbox[b]{\dimexpr\textwidth-2em\relax}{\raggedchapter #3}%
+    \hfill
+    \makebox[0pt][l]{#2}%
+}
+
+%% \RequirePackage{lmodern}% just for the example
+%% \RequirePackage{hyperref}
+
+%% \colorlet{ctcolorchapterline}{cyan}
+%% \colorlet{ctcolorchapternum}{cyan}
+
+%% \RedeclareSectionCommand[
+%%   beforeskip=-1sp
+%% ]{chapter}
+
+%% \makeatletter
+%% \renewcommand\chapterlinesformat[3]{%
+%%   \ifstr{#1}{chapter}
+%%     {%
+%%       \parbox[b][\ht\strutbox]{\textwidth}{%
+%%         \parbox[b]{\dimexpr\textwidth-3em\relax}{\raggedright#3}%
+%%         \makebox[3em][r]{%
+%%           \hfill
+%%           #2%
+%%         }%
+%%       }%
+%%     }{\@hangfrom{#2}{#3}}% <- original definition for other levels
+%% }
+%% \makeatother
+%% \renewcommand\chapterformat{%
+%%   \smash{\textcolor{ctcolorchapterline}{\rule[-5pt]{2pt}{10cm}}}%
+%%   \quad
+%%   \textcolor{ctcolorchapternum}{\fontsize{60}{60}\selectfont\thechapter}%
+%% }
+
+
+%%%%%%%%%%% Setup index %%%%%%%%%%%%%
+
+%% Generate the index style file
+\begin{filecontents}{authsec.ist}
+headings_flag 1
+heading_prefix "{\\large\\sffamily\\bfseries\\textcolor{colorchapternumber} "
+heading_suffix "}\\nopagebreak\n"
+delim_0 " \\dotfill\\hspace*{.5ex} "
+delim_1 " \\dotfill "
+delim_2 " \\dotfill "
+\end{filecontents}
+
+%% This disables the indent if a line would be too long to be displayed in the index.
+\makeatletter
+\def\@idxitem{\par\hangindent 0pt}
+\makeatother
+
+%% Create the index
+\makeindex[intoc=true,options= -s authsec.ist]
+
+\endinput
