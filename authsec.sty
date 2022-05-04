@@ -178,16 +178,28 @@
   font=\huge\mdseries
 ]{chapter}
 
-\renewcommand*\chapterformat{%
-    \smash{\textcolor{colorchapterline}{\rule[-5pt]{2pt}{10cm}}}%
+\renewcommand\raggedchapter{\ifthispageodd{}{\raggedleft}}
+\renewcommand*{\chapterformat}{%
+  \ifthispageodd{%
+    \rlap{\smash{\textcolor{colorchapterline}{\rule[-5pt]{2pt}{10cm}}}%
     \quad%
-    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\thechapter}%
+    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\thechapter}}%
+}{%
+   \rlap{\hspace{-\textwidth}\smash{\textcolor{colorchapterline}{\rule[-5pt]{2pt}{10cm}}}%
+    \quad%
+    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{-2.3ex}\thechapter}}%
+
+}
 }%
 
 \renewcommand*\chapterlinesformat[3]{%
     \parbox[b]{\dimexpr\textwidth-2em\relax}{\raggedchapter #3}%
     \hfill
-    \makebox[0pt][l]{#2}%
+    \ifthispageodd{%
+      \makebox[0pt][r]{#2}%
+    }{%
+      #2%
+    }
 }
 
 %% \RequirePackage{lmodern}% just for the example
