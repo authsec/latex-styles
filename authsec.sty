@@ -181,19 +181,19 @@
 \renewcommand\raggedchapter{\Ifthispageodd{}{\raggedleft}}
 \renewcommand*{\chapterformat}{%
   \Ifthispageodd{%
-    \rlap{\smash{\textcolor{colorchapterline}{\flushright\rule[-5pt]{2pt}{10cm}}}%
+    \rlap{\hspace{\fill}\smash{\textcolor{colorchapterline}{\flushright\rule{2pt}{10cm}}}%
     \quad%
     \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\thechapter}}%
 }{%
-   \rlap{\hspace{-\textwidth}\smash{\textcolor{colorchapterline}{\rule[-5pt]{2pt}{10cm}}}%
-    \quad%
-    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{-2.3ex}\thechapter}}%
+   \rlap{\hspace{-\textwidth}\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}}%
+    %
+    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{-3\fontdimen2\font plus -\marginparsep}\thechapter}}%
 
 }
 }%
 
 \renewcommand*\chapterlinesformat[3]{%
-    \parbox[b]{\dimexpr\textwidth-2em\relax}{\raggedchapter #3}%
+    \parbox[b]{\dimexpr\textwidth\relax}{\raggedchapter #3}%
     \hfill
     \Ifthispageodd{%
       \makebox[0pt][r]{#2}%
