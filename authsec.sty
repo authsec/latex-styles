@@ -182,8 +182,8 @@
 \renewcommand*{\chapterformat}{%
   \Ifthispageodd{%
     \rlap{\hspace{\fill}\smash{\textcolor{colorchapterline}{\flushright\rule{2pt}{10cm}}}%
-    \quad%
-    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\thechapter}}%
+    %
+    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{\marginparsep}\thechapter}}%
 }{%
    \rlap{\hspace{-\textwidth}\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}}%
     %
@@ -196,7 +196,7 @@
     \parbox[b]{\dimexpr\textwidth\relax}{\raggedchapter #3}%
     \hfill
     \Ifthispageodd{%
-      \makebox[0pt][r]{#2}%
+      #2%
     }{%
       #2%
     }
