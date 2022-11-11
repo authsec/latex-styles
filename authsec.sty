@@ -5,7 +5,7 @@
 %%\pagecolor{yellow!30!orange}
 
 \RequirePackage{microtype}
-\RequirePackage{setspace}			% for line spacing, e.g. \onehalfspacing
+\RequirePackage{setspace} % for line spacing, e.g. \onehalfspacing
 \RequirePackage{scrlayer-scrpage}
 
 % Select/setup fonts
@@ -21,6 +21,7 @@
 
 \RequirePackage{etoolbox}
 \RequirePackage{awesomebox}
+\RequirePackage{calc}
 
 %% Define headers and footer
 %% \lohead{Peter Musterheinzel}
@@ -160,12 +161,12 @@
 % **************************************************
 % Text Format
 % **************************************************
-\setstretch{1.2}					% value for line spacing, use \setstretch{} or \singlespacing or \onehalfspacing or \doublespacing
-\KOMAoptions{DIV=last}                          % Satzspiegel neu berechnen
-%\setlength{\parindent}{0em}			% value for paragraph indentation
-\clubpenalty = 10000				% prevent single lines at the beginning of a paragraph (Schusterjungen)
-\widowpenalty = 10000				% prevent single lines at the end of a paragraph (Hurenkinder)
-\displaywidowpenalty = 10000		%
+\setstretch{1.2} % value for line spacing, use \setstretch{} or \singlespacing or \onehalfspacing or \doublespacing
+\KOMAoptions{DIV=last} % Satzspiegel neu berechnen
+%\setlength{\parindent}{0em} % value for paragraph indentation
+\clubpenalty = 10000 % prevent single lines at the beginning of a paragraph (Schusterjungen)
+\widowpenalty = 10000 % prevent single lines at the end of a paragraph (Hurenkinder)
+\displaywidowpenalty = 10000 %
 
 %%\cleardoubleoddpage
 %%\pagestyle{headings}
@@ -187,7 +188,7 @@
 }{%
    \rlap{\hspace{-\textwidth}\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}}%
     %
-    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{-3\fontdimen2\font plus -\marginparsep}\thechapter}}%
+    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{-\marginparsep-\widthof{\thechapter}}\thechapter}}%
 
 }
 }%
