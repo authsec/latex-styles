@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{authsec}[2021/11/15 KOMA Report Customizations]
+\ProvidesPackage{authsec}[2022/11/14 KOMA Report Customizations]
 
 %%\RequirePackage{pagecolor}
 %%\pagecolor{yellow!30!orange}
@@ -15,7 +15,7 @@
 \RequirePackage[T1]{fontenc}
 \RequirePackage{blindtext}
 \RequirePackage[backend=biber]{biblatex}
-\RequirePackage{imakeidx}
+\RequirePackage[splitindex]{imakeidx}
 \RequirePackage{tikz}
 \RequirePackage{xcolor}
 
@@ -241,9 +241,20 @@
 headings_flag 1
 heading_prefix "{\\large\\sffamily\\bfseries\\textcolor{colorchapternumber} "
 heading_suffix "}\\nopagebreak\n"
-delim_0 " \\dotfill\\hspace*{.5ex} "
-delim_1 " \\dotfill "
-delim_2 " \\dotfill "
+group_skip "}\n\n \\indexspace\n"
+delim_0 " \\dotfill\\hspace*{.5ex}\\hyperpage{"
+item_0 "} \n \\item "
+item_01 "} \n \\subitem "
+item_x1 "} \n \\subitem "
+item_1 "} \n \\subitem "
+item_12 "} \n \\subsubitem "
+item_2 "} \n \\subsubitem "
+item_x2 "} \n \\subsubitem "
+delim_1 " \\dotfill\\hspace*{.5ex}\\hyperpage{"
+delim_2 " \\dotfill\\hspace*{.5ex}\\hyperpage{"
+postamble
+"}\n
+\\end{theindex}"
 \end{filecontents}
 
 %% This disables the indent if a line would be too long to be displayed in the index.
