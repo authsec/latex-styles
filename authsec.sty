@@ -14,7 +14,6 @@
 \RequirePackage{eulervm} % Euler math
 \RequirePackage[T1]{fontenc}
 \RequirePackage{blindtext}
-\RequirePackage[backend=biber]{biblatex}
 \RequirePackage[splitindex]{imakeidx}
 \RequirePackage{tikz}
 \RequirePackage{xcolor}
@@ -74,11 +73,12 @@
 \def\printauthor{%                  
   {\large \@author}}              
 \makeatother
-\author{%
-    Author name \\
-    Department name \\
-    \texttt{email2@example.com}
-}
+% Author will be set by the outer document
+% \author{%
+%     Author name \\
+%     Department name \\
+%     \texttt{email2@example.com}
+% }
 
 \newcommand\titlepagedecoration{%
 \begin{tikzpicture}[remember picture,overlay,shorten >= -10pt]
