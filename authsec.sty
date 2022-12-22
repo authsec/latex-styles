@@ -1,12 +1,13 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{authsec}[2022/11/14 KOMA Report Customizations]
-
+%\errorcontextlines=1000
 %%\RequirePackage{pagecolor}
 %%\pagecolor{yellow!30!orange}
 
 \RequirePackage{microtype}
 \RequirePackage{setspace} % for line spacing, e.g. \onehalfspacing
 \RequirePackage{scrlayer-scrpage}
+\RequirePackage{scrhack}
 
 % Select/setup fonts
 \RequirePackage[sc]{mathpazo} % Palatino with smallcaps
@@ -16,7 +17,6 @@
 \RequirePackage{blindtext}
 \RequirePackage[splitindex]{imakeidx}
 \RequirePackage{tikz}
-\RequirePackage{xcolor}
 
 \RequirePackage{etoolbox}
 \RequirePackage{awesomebox}
@@ -55,6 +55,7 @@
     listof=totocnumbered,%
     bibliography=totoc%
 }
+\KOMAoption{chapterprefix}{true}
 
 %% Define colors
 \definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
@@ -124,11 +125,11 @@
 }
 
 \makeatletter
-\renewcommand{\maketitle}{{
+\renewcommand{\maketitle}{
 \pagenumbering{roman}
 \thispagestyle{empty}
 \noindent
-\titlefont \@title 
+\titlefont\@title%
 \vspace*{2ex}
 \dictum[\textit{London 1941}\\G. H. Hardy]{Pure mathematics is on the whole distinctly more useful than applied. For what is useful above all is technique, and mathematical technique is taught mainly through pure mathematics.}%
 \null\vfill
@@ -137,16 +138,16 @@
 \hfill
 \begin{minipage}{0.35\linewidth}
     \begin{flushright}
-        \printauthor
+        \printauthor%
     \end{flushright}
 \end{minipage}
 %
 \begin{minipage}{0.02\linewidth}
     \rule{1pt}{63pt}
 \end{minipage}
-\titlepagedecoration
+\titlepagedecoration%
 \cleardoubleoddpage%
-}}
+}
 \makeatother
 
 \AfterTOCHead[toc]{%
@@ -164,33 +165,43 @@
 \setstretch{1.2} % value for line spacing, use \setstretch{} or \singlespacing or \onehalfspacing or \doublespacing
 \KOMAoptions{DIV=last} % Satzspiegel neu berechnen
 %\setlength{\parindent}{0em} % value for paragraph indentation
-\clubpenalty = 10000 % prevent single lines at the beginning of a paragraph (Schusterjungen)
-\widowpenalty = 10000 % prevent single lines at the end of a paragraph (Hurenkinder)
-\displaywidowpenalty = 10000 %
+\clubpenalty=10000% prevent single lines at the beginning of a paragraph (Schusterjungen)
+\widowpenalty=10000% prevent single lines at the end of a paragraph (Hurenkinder)
+\displaywidowpenalty=10000%
 
 %%\cleardoubleoddpage
 %%\pagestyle{headings}
 %%\pagenumbering{arabic}
 
-%% Redefine Chapter
-\RedeclareSectionCommand[
-  beforeskip=1sp,
-  afterindent=false,
-  font=\huge\mdseries
-]{chapter}
-
 \renewcommand\raggedchapter{\Ifthispageodd{}{\raggedleft}}
+%% Redefine Chapter
+\RedeclareSectionCommand[%
+  beforeskip=1sp,%
+  afterindent=false,%
+  font=\huge\mdseries%
+  ]{chapter}
+
+
+% \renewcommand*{\chapterformat}{%
+%   \Ifthispageodd{%
+%     \rlap{\hspace\fill\smash{\textcolor{colorchapterline}{\protect\rule{2pt}{100pt}}}}%
+%     %
+%     \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{\marginparsep}\protect\thechapter}%
+% }{%
+%    \rlap{\hspace minus 1\textwidth\smash{\textcolor{colorchapterline}{\protect\rule{2pt}{100pt}}}}%
+%     %
+%     \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{-\marginparsep-\widthof{\thechapter}}\protect\thechapter}%
+
+% }
+% }%
 \renewcommand*{\chapterformat}{%
   \Ifthispageodd{%
-    \rlap{\hspace{\fill}\smash{\textcolor{colorchapterline}{\flushright\rule{2pt}{10cm}}}%
-    %
-    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{\marginparsep}\thechapter}}%
-}{%
-   \rlap{\hspace{-\textwidth}\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}}%
-    %
-    \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{-\marginparsep-\widthof{\thechapter}}\thechapter}}%
-
-}
+     \hfill\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}}%
+     \rlap{\textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{\marginparsep}\thechapter}}%
+   }{%
+     \flushleft\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}}%
+     \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{-\marginparsep-\widthof{\thechapter}}\thechapter}%
+   }
 }%
 
 \renewcommand*\chapterlinesformat[3]{%
@@ -238,7 +249,7 @@
 
 %% Generate the index style file
 %% When you are modifying the style, activating overwrite mode saves some time
-%% \begin{filecontents}[overwrite]{authsec.ist}
+%%\begin{filecontents}[overwrite]{authsec.ist}
 \begin{filecontents}{authsec.ist}
 headings_flag 1
 heading_prefix "{\\large\\sffamily\\bfseries\\textcolor{colorchapternumber} "
