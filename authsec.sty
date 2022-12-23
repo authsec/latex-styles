@@ -22,6 +22,9 @@
 \RequirePackage{awesomebox}
 \RequirePackage{calc}
 
+% Change Verbatim environment
+\RequirePackage{fvextra}% loads fancyvrb
+\DefineVerbatimEnvironment{verbatim}{Verbatim}{breaklines,breakafter={\space, \,, \#, \[, \], \{, \}, \%, /, -, _},fontsize=\small,formatcom={\color[rgb]{0.5,0.5,0}}}
 %% Define headers and footer
 %% \lohead{Peter Musterheinzel}
 %% \rohead{Seitenstile mit \KOMAScript}
@@ -150,6 +153,13 @@
 }
 \makeatother
 
+\addtotoclist[float]{lol}
+\renewcommand*\listoflistings{\listoftoc[{\listoflistingscaption}]{lol}}
+\DeclareTOCStyleEntry[
+    level=1,
+    indent=1.5em,
+    numwidth=2.3em
+    ]{default}{listing}
 \AfterTOCHead[toc]{%
 %%  \pagenumbering{arabic}%
   \thispagestyle{empty}%
