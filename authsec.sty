@@ -1,5 +1,18 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{authsec}[2022/11/14 KOMA Report Customizations]
+\RequirePackage{ifxetex,ifluatex}
+%% Provide \ifxetexorluatex
+\newif\ifxetexorluatex%
+\ifxetex%
+  \xetexorluatextrue%
+\else%
+  \ifluatex%
+    \xetexorluatextrue%
+  \else%
+    \xetexorluatexfalse%
+  \fi%
+\fi%
+
 %\errorcontextlines=1000
 %%\RequirePackage{pagecolor}
 %%\pagecolor{yellow!30!orange}
@@ -10,10 +23,15 @@
 \RequirePackage{scrhack}
 
 % Select/setup fonts
-\RequirePackage[sc]{mathpazo} % Palatino with smallcaps
-\RequirePackage[scaled]{helvet} % Helvetica, scaled 95%
-\RequirePackage{eulervm} % Euler math
-\RequirePackage[T1]{fontenc}
+\ifxetexorluatex%
+  \RequirePackage{fontspec}
+\else%
+  \RequirePackage[sc]{mathpazo}% Palatino with smallcaps
+  \RequirePackage[scaled]{helvet}% Helvetica, scaled 95%
+  \RequirePackage{eulervm}% Euler math
+  \RequirePackage[T1]{fontenc}
+\fi%
+
 \RequirePackage{blindtext}
 \RequirePackage[splitindex]{imakeidx}
 \RequirePackage{tikz}
