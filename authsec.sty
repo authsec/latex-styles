@@ -1,5 +1,8 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{authsec}[2022/11/14 KOMA Report Customizations]
+% For debugging
+\errorcontextlines=1000
+
 \RequirePackage{ifxetex,ifluatex}
 %% Provide \ifxetexorluatex
 \newif\ifxetexorluatex%
@@ -13,7 +16,21 @@
   \fi%
 \fi%
 
-%\errorcontextlines=1000
+%% Handle Options %%
+\RequirePackage{kvoptions,etoolbox}
+\SetupKeyvalOptions{
+  family=authsec,%
+  prefix=authsec@,%
+  setkeys=\kvsetkeys%
+}
+\DeclareStringOption{titlepagedictumtext}
+\DeclareStringOption{titlepagedictumauthor}
+\DeclareStringOption[american]{language}
+\DeclareStringOption[]{languageoptions}
+
+%\DeclareLocalOptions{titledictum}
+\ProcessKeyvalOptions*%
+
 %%\RequirePackage{pagecolor}
 %%\pagecolor{yellow!30!orange}
 
@@ -36,7 +53,6 @@
 \RequirePackage[splitindex]{imakeidx}
 \RequirePackage{tikz}
 
-\RequirePackage{etoolbox}
 \RequirePackage{awesomebox}
 \RequirePackage{calc}
 
@@ -152,7 +168,15 @@
 \noindent
 \titlefont\@title%
 \vspace*{2ex}
-\dictum[\textit{London 1941}\\G. H. Hardy]{Pure mathematics is on the whole distinctly more useful than applied. For what is useful above all is technique, and mathematical technique is taught mainly through pure mathematics.}%
+\ifdefempty\authsec@titlepagedictumtext{%
+  % Do nothing if empty
+}{%
+  \ifdefempty\authsec@titlepagedictumauthor{%
+      \dictum[Unknown Author]{\authsec@titlepagedictumtext}%
+    }{%
+      \dictum[\authsec@titlepagedictumauthor]{\authsec@titlepagedictumtext}%
+    }%
+}%
 \null\vfill
 \vspace*{1cm}
 \noindent
