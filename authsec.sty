@@ -1,7 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{authsec}[2022/11/14 KOMA Report Customizations]
+\ProvidesPackage{authsec}[2022/12/25 KOMA Report Customizations]
 % For debugging
-\errorcontextlines=1000
+%\errorcontextlines=1000
 
 \RequirePackage{graphicx}
 \RequirePackage{longtable}
@@ -11,7 +11,6 @@
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
 \RequirePackage{capt-of}
-\RequirePackage{hyperref}
 \RequirePackage{minted}
 \RequirePackage{ifxetex,ifluatex}
 %% Provide \ifxetexorluatex
@@ -65,16 +64,16 @@
 \fi%
 \RequirePackage[backend=biber,style=\authsec@bibstyle]{biblatex}
 
-\RequirePackage{blindtext}
-\RequirePackage[splitindex]{imakeidx}
 \RequirePackage{tikz}
-
 \RequirePackage{awesomebox}
 \RequirePackage{calc}
 
 % Change Verbatim environment
 \RequirePackage{fvextra}% loads fancyvrb
 \DefineVerbatimEnvironment{verbatim}{Verbatim}{breaklines,breakafter={\space, \,, \#, \[, \], \{, \}, \%, /, -, _},fontsize=\small,formatcom={\color[rgb]{0.5,0.5,0}}}
+
+\RequirePackage{hyperref}
+\RequirePackage[splitindex]{imakeidx}
 %% Define headers and footer
 %% \lohead{Peter Musterheinzel}
 %% \rohead{Seitenstile mit \KOMAScript}
