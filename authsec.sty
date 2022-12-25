@@ -3,6 +3,16 @@
 % For debugging
 \errorcontextlines=1000
 
+\RequirePackage{graphicx}
+\RequirePackage{longtable}
+\RequirePackage{wrapfig}
+\RequirePackage{rotating}
+\RequirePackage[normalem]{ulem}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{capt-of}
+\RequirePackage{hyperref}
+\RequirePackage{minted}
 \RequirePackage{ifxetex,ifluatex}
 %% Provide \ifxetexorluatex
 \newif\ifxetexorluatex%
@@ -27,6 +37,7 @@
 \DeclareStringOption{titlepagedictumauthor}
 \DeclareStringOption[american]{language}
 \DeclareStringOption[]{languageoptions}
+\DeclareStringOption[ieee]{bibstyle}
 
 %\DeclareLocalOptions{titledictum}
 \ProcessKeyvalOptions*%
@@ -42,12 +53,17 @@
 % Select/setup fonts
 \ifxetexorluatex%
   \RequirePackage{fontspec}
+  %\message{[EmRE] loaded language: '\authsec@language' with options '\authsec@languageoptions'.}
+  \RequirePackage[babelshorthands]{polyglossia}
+  \setdefaultlanguage[\authsec@languageoptions]{\authsec@language}
 \else%
   \RequirePackage[sc]{mathpazo}% Palatino with smallcaps
   \RequirePackage[scaled]{helvet}% Helvetica, scaled 95%
   \RequirePackage{eulervm}% Euler math
   \RequirePackage[T1]{fontenc}
+  \RequirePackage[\authsec@languageoptions,\authsec@language]{babel}
 \fi%
+\RequirePackage[backend=biber,style=\authsec@bibstyle]{biblatex}
 
 \RequirePackage{blindtext}
 \RequirePackage[splitindex]{imakeidx}
