@@ -70,7 +70,7 @@
 
 % Change Verbatim environment
 \RequirePackage{fvextra}% loads fancyvrb
-\DefineVerbatimEnvironment{verbatim}{Verbatim}{breaklines,breakafter={\space, \,, \#, \[, \], \{, \}, \%, /, -, _},fontsize=\small,formatcom={\color[rgb]{0.5,0.5,0}}}
+\DefineVerbatimEnvironment{verbatim}{Verbatim}{breaklines,breakafter={\space, \,, \#, \[, \], \{, \}, \%, /, -, _},fontsize=\normalsize,formatcom={\color[rgb]{0.5,0.5,0}}}
 
 \RequirePackage{hyperref}
 \RequirePackage[splitindex]{imakeidx}
@@ -122,10 +122,16 @@
 
 \DeclareFixedFont{\titlefont}{T1}{ppl}{b}{it}{0.5in}
 
-\makeatletter                       
-\def\printauthor{%                  
-  {\large \@author}}              
-\makeatother
+\newcommand{\printauthor}{%
+    \makeatletter
+    % author needs to be set anyway, as it is required by the classes.
+    {\Large \faUser~\@author}%
+    \makeatother
+    \ifdefempty{\email}{}{%
+      %add line break and eMail if this is set
+      {\\\large\faAt~\email}
+    }
+}
 % Author will be set by the outer document
 % \author{%
 %     Author name \\
@@ -182,7 +188,7 @@
 \thispagestyle{empty}
 \noindent
 \titlefont\@title%
-\vspace*{2ex}
+\vspace*{2em}
 \ifdefempty\authsec@titlepagedictumtext{%
   % Do nothing if empty
 }{%
@@ -196,14 +202,10 @@
 \vspace*{1cm}
 \noindent
 \hfill
-\begin{minipage}{0.35\linewidth}
-    \begin{flushright}
-        \printauthor%
-    \end{flushright}
-\end{minipage}
-%
-\begin{minipage}{0.02\linewidth}
-    \rule{1pt}{63pt}
+\begin{minipage}{0.45\linewidth}
+  \begin{flushright}
+    \printauthor%
+  \end{flushright}
 \end{minipage}
 \titlepagedecoration%
 \cleardoubleoddpage%
