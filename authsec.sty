@@ -228,9 +228,16 @@
 \setstretch{1.2} % value for line spacing, use \setstretch{} or \singlespacing or \onehalfspacing or \doublespacing
 \KOMAoptions{DIV=last} % Satzspiegel neu berechnen
 %\setlength{\parindent}{0em} % value for paragraph indentation
+\tolerance=1414%
+\hbadness=1414%
+\emergencystretch=1.2em%
+\hfuzz=0.3pt%
 \clubpenalty=10000% prevent single lines at the beginning of a paragraph (Schusterjungen)
 \widowpenalty=10000% prevent single lines at the end of a paragraph (Hurenkinder)
 \displaywidowpenalty=10000%
+\vfuzz%
+\hfuzz%
+\raggedbottom%
 
 \renewcommand\raggedchapter{\Ifthispageodd{}{\raggedleft}}
 %% Redefine Chapter
@@ -259,6 +266,10 @@
     }{%
       #2%
     }
+}
+
+\renewcommand\sectionlinesformat[4]{%
+  \makebox[0pt][r]{#3}#4%
 }
 
 %%%%%%%%%%% Setup index %%%%%%%%%%%%%
