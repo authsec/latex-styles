@@ -2,6 +2,10 @@
 \ProvidesPackage{authsec}[2022/12/25 KOMA Report Customizations]
 % For debugging
 %\errorcontextlines=1000
+%% For debugging layout
+%\ifluatex%
+%\RequirePackage{lua-visual-debug}%
+%\fi%
 
 \RequirePackage{graphicx}
 \RequirePackage{longtable}
@@ -188,7 +192,7 @@
 \pagenumbering{roman}
 \thispagestyle{empty}
 \noindent
-\titlefont\@title%
+\titlefont\@title\normalfont%
 \vspace*{2em}
 \ifdefempty\authsec@titlepagedictumtext{%
   % Do nothing if empty
@@ -269,8 +273,9 @@
      \hfill\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}}%
      \rlap{\textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{\marginparsep}\thechapter}}%
    }{%
-     \flushleft\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}}%
+     \flushleft\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}%
      \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{-\marginparsep-\widthof{\thechapter}}\thechapter}%
+     }%
    }
 }%
 
