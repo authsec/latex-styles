@@ -79,18 +79,6 @@
 
 \RequirePackage{hyperref}
 \RequirePackage[splitindex]{imakeidx}
-%% Define headers and footer
-%% \lohead{Peter Musterheinzel}
-%% \rohead{Seitenstile mit \KOMAScript}
-
-%% \lofoot{}
-%% \lefoot{}
-
-%% \cofoot{}
-%% \cefoot{}
-
-%% \rofoot{}
-%% \refoot{}
 
 %% Add chapter and section as page headers
 \automark[chapter]{chapter}
@@ -137,7 +125,8 @@
       {\\\large\faAt~\email}
     }
 }
-% Author will be set by the outer document
+
+% Author will be set by the org document
 % \author{%
 %     Author name \\
 %     Department name \\
@@ -243,10 +232,6 @@
 \widowpenalty=10000% prevent single lines at the end of a paragraph (Hurenkinder)
 \displaywidowpenalty=10000%
 
-%%\cleardoubleoddpage
-%%\pagestyle{headings}
-%%\pagenumbering{arabic}
-
 \renewcommand\raggedchapter{\Ifthispageodd{}{\raggedleft}}
 %% Redefine Chapter
 \RedeclareSectionCommand[%
@@ -255,19 +240,6 @@
   font=\huge\mdseries%
   ]{chapter}
 
-
-% \renewcommand*{\chapterformat}{%
-%   \Ifthispageodd{%
-%     \rlap{\hspace\fill\smash{\textcolor{colorchapterline}{\protect\rule{2pt}{100pt}}}}%
-%     %
-%     \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{\marginparsep}\protect\thechapter}%
-% }{%
-%    \rlap{\hspace minus 1\textwidth\smash{\textcolor{colorchapterline}{\protect\rule{2pt}{100pt}}}}%
-%     %
-%     \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{-\marginparsep-\widthof{\thechapter}}\protect\thechapter}%
-
-% }
-% }%
 \renewcommand*{\chapterformat}{%
   \Ifthispageodd{%
      \hfill\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}}%
@@ -288,37 +260,6 @@
       #2%
     }
 }
-
-%% \RequirePackage{lmodern}% just for the example
-%% \RequirePackage[pagebackref=true]{hyperref}
-
-%% \colorlet{ctcolorchapterline}{cyan}
-%% \colorlet{ctcolorchapternum}{cyan}
-
-%% \RedeclareSectionCommand[
-%%   beforeskip=-1sp
-%% ]{chapter}
-
-%% \makeatletter
-%% \renewcommand\chapterlinesformat[3]{%
-%%   \ifstr{#1}{chapter}
-%%     {%
-%%       \parbox[b][\ht\strutbox]{\textwidth}{%
-%%         \parbox[b]{\dimexpr\textwidth-3em\relax}{\raggedright#3}%
-%%         \makebox[3em][r]{%
-%%           \hfill
-%%           #2%
-%%         }%
-%%       }%
-%%     }{\@hangfrom{#2}{#3}}% <- original definition for other levels
-%% }
-%% \makeatother
-%% \renewcommand\chapterformat{%
-%%   \smash{\textcolor{ctcolorchapterline}{\rule[-5pt]{2pt}{10cm}}}%
-%%   \quad
-%%   \textcolor{ctcolorchapternum}{\fontsize{60}{60}\selectfont\thechapter}%
-%% }
-
 
 %%%%%%%%%%% Setup index %%%%%%%%%%%%%
 
