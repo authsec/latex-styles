@@ -16,7 +16,7 @@
 \RequirePackage{amssymb}
 \RequirePackage{capt-of}
 \RequirePackage{minted}
-\RequirePackage{ifxetex,ifluatex}
+\RequirePackage{iftex,ifxetex,ifluatex}
 %% Provide \ifxetexorluatex
 \newif\ifxetexorluatex%
 \ifxetex%
@@ -41,6 +41,7 @@
 \DeclareStringOption[american]{language}
 \DeclareStringOption[]{languageoptions}
 \DeclareStringOption[ieee]{bibstyle}
+\DeclareBoolOption{marginsections}
 
 %\DeclareLocalOptions{titledictum}
 \ProcessKeyvalOptions*%
@@ -105,6 +106,7 @@
 %% Define colors
 \definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
 \definecolor{colorchapternumber}{cmyk}{.0, .43, 1, .02}
+\definecolor{colorsectionnumber}{cmyk}{.0, .0, .0, .17}
 \colorlet{colorchapterline}{colorchapternumber!45}
 
 
@@ -268,9 +270,13 @@
     }
 }
 
+\makeatletter
+\ifauthsec@marginsections%
 \renewcommand\sectionlinesformat[4]{%
-  \makebox[0pt][r]{#3}#4%
-}
+    \makebox[0pt][r]{\textcolor{colorsectionnumber}{#3}}#4%
+}%
+\fi%
+\makeatother
 
 %%%%%%%%%%% Setup index %%%%%%%%%%%%%
 
