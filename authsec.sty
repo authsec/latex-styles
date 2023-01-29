@@ -276,17 +276,14 @@
 \ifauthsec@marginsections%
 \KOMAoption{numbers}{noendperiod}
 \renewcommand\sectionlinesformat[4]{%
-%% Using a minipage here helps prevent problems with floating figures
-\begin{minipage}{\textwidth}%
-  \Ifthispageodd{%
-    \raggedleft{#4\protect\makebox[0pt][l]{\hspace*{\marginparsep}\textcolor{colorsectionnumber}{#3}}}%
-  }{%
+  \if@openright%
+    \raggedleft#4\makebox[0pt][l]{\hspace*{\marginparsep}\textcolor{colorsectionnumber}{#3}}%
+  \else%
     %% \fontdimen2\font gives the width of the 'n' character in the current font, which is the same as \enskip
     %% That value is removed, as this is auto inserted after the section command (as defined in the sectionformat)
     %% e.g. \renewcommand\sectionformat{\thesection\autodot\enskip}
-    \raggedright{\protect\makebox[0pt][r]{\textcolor{colorsectionnumber}{#3}\hspace*{\dimexpr\marginparsep-\fontdimen2\font}}#4}%
-  }%
-\end{minipage}%
+    \raggedright\makebox[0pt][r]{\textcolor{colorsectionnumber}{#3}\hspace*{\dimexpr\marginparsep-\fontdimen2\font}}#4%
+  \fi%
 }%
 \fi%
 \makeatother
