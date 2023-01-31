@@ -82,7 +82,7 @@
 \RequirePackage{hyperref}
 \RequirePackage[splitindex]{imakeidx}
 %% Load glossaries after hyperref, babel, polyglossia,inputenc,fontenc
-\RequirePackage{glossaries}
+\RequirePackage[toc,acronyms,numberedsection]{glossaries}
 
 %% Add chapter and section as page headers
 \automark[chapter]{chapter}
@@ -321,5 +321,6 @@ postamble
 
 %% Create the index
 \makeindex[intoc=true,options= -s authsec.ist]
+\makeglossaries
 
 \endinput
