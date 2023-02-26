@@ -42,7 +42,10 @@
 \DeclareStringOption[american]{language}
 \DeclareStringOption[]{languageoptions}
 \DeclareStringOption[ieee]{bibstyle}
+\DeclareStringOption[Version: \today]{draftcontents}
 \DeclareBoolOption{marginsections}
+\DeclareBoolOption{draft}
+\DeclareBoolOption{buildglosses}
 
 %\DeclareLocalOptions{titledictum}
 \ProcessKeyvalOptions*%
@@ -50,26 +53,41 @@
 %%\RequirePackage{pagecolor}
 %%\pagecolor{yellow!30!orange}
 
-\RequirePackage{microtype}
+\makeatletter
+\unless\ifauthsec@draft%
+  \RequirePackage{microtype}
+\fi% 
+\makeatother
+
 \RequirePackage{setspace} % for line spacing, e.g. \onehalfspacing
 \RequirePackage{scrlayer-scrpage}
 \RequirePackage{scrhack}
+\RequirePackage{csquotes}
+\RequirePackage{pdflscape}
 
 % Select/setup fonts
 \ifxetexorluatex%
   \RequirePackage{fontspec}
   %\message{[EmRE] loaded language: '\authsec@language' with options '\authsec@languageoptions'.}
   \RequirePackage[babelshorthands]{polyglossia}
+  \makeatletter
   \setdefaultlanguage[\authsec@languageoptions]{\authsec@language}
+  \makeatother
 \else%
   \RequirePackage[sc]{mathpazo}% Palatino with smallcaps
   \RequirePackage[scaled]{helvet}% Helvetica, scaled 95%
   \RequirePackage{eulervm}% Euler math
   \RequirePackage[T1]{fontenc}
+  \makeatletter
   \RequirePackage[\authsec@languageoptions,\authsec@language]{babel}
+  \makeatother
 \fi%
-\RequirePackage[backend=biber,style=\authsec@bibstyle]{biblatex}
 
+\makeatletter
+\RequirePackage[backend=biber,style=\authsec@bibstyle]{biblatex}
+\makeatother
+
+\RequirePackage[style=iso]{datetime2}
 \RequirePackage{menukeys}
 \RequirePackage{tikz}
 \RequirePackage{awesomebox}
@@ -79,10 +97,42 @@
 \RequirePackage{fvextra}% loads fancyvrb
 \DefineVerbatimEnvironment{verbatim}{Verbatim}{breaklines,breakafter={\space, \,, \#, \[, \], \{, \}, \%, /, -, _},fontsize=\normalsize,formatcom={\color[rgb]{0.5,0.5,0}}}
 
+\makeatletter
+\ifauthsec@draft%
+   \RequirePackage{tikzpagenodes}
+   \RequirePackage[
+    contents={},
+    opacity=1,
+    scale=1.5,
+    color=colorchapternumber!25
+    ]{background}
+    \AddEverypageHook{%
+    \Ifthispageodd{%
+      \backgroundsetup{
+      angle=270,
+      position={.715\textwidth,-0.64\textheight},
+      contents={\authsec@draftcontents}
+      }%
+      }{%
+      \backgroundsetup{
+      angle=90,
+      position={-1,-0.64\textheight},
+      contents={\authsec@draftcontents}
+      }
+      }%
+      \BgMaterial}
+\fi
+\makeatother
+
 \RequirePackage{hyperref}
 \RequirePackage[splitindex]{imakeidx}
+
+\makeatletter
+\ifauthsec@buildglosses%
 %% Load glossaries after hyperref, babel, polyglossia,inputenc,fontenc
 \RequirePackage[toc,acronyms,numberedsection]{glossaries}
+\fi
+\makeatother
 
 %% Add chapter and section as page headers
 \automark[chapter]{chapter}
@@ -321,6 +371,11 @@ postamble
 
 %% Create the index
 \makeindex[intoc=true,options= -s authsec.ist]
+
+\makeatletter
+\ifauthsec@buildglosses%
 \makeglossaries
+\fi
+\makeatother
 
 \endinput
