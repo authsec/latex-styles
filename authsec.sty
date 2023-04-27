@@ -17,6 +17,7 @@
 \RequirePackage{amssymb}
 \RequirePackage{capt-of}
 \RequirePackage{minted}
+\RequirePackage{titling}
 \RequirePackage{iftex,ifxetex,ifluatex}
 %% Provide \ifxetexorluatex
 \newif\ifxetexorluatex%
@@ -171,10 +172,8 @@
 \DeclareFixedFont{\titlefont}{T1}{ppl}{b}{it}{0.5in}
 
 \newcommand{\printauthor}{%
-    \makeatletter
     % author needs to be set anyway, as it is required by the classes.
-    {\Large \faUser~\@author}%
-    \makeatother
+    {\Large \faUser~\theauthor}%
     \ifdefempty{\email}{}{%
       %add line break and eMail if this is set
       {\\\large\faAt~\email}
