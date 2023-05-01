@@ -18,6 +18,8 @@
 \RequirePackage{capt-of}
 \RequirePackage{minted}
 \RequirePackage{titling}
+\RequirePackage[section]{placeins} %set all floating objects before a new section starts
+\RequirePackage{needspace} % ensure a certain amount of space on a page (used for starting a section only if at least 1/3 of the page is available)
 \RequirePackage{iftex,ifxetex,ifluatex}
 %% Provide \ifxetexorluatex
 \newif\ifxetexorluatex%
@@ -312,13 +314,13 @@
 }%
 
 \renewcommand*\chapterlinesformat[3]{%
+\Ifstr{#1}{chapter}{%
     \parbox[b]{\dimexpr\textwidth\relax}{\raggedchapter #3}%
     \hfill
-    \Ifthispageodd{%
-      #2%
-    }{%
-      #2%
-    }
+    #2
+}{%
+  \@hangfrom{#2}{#3}% original definition for other levels
+}
 }
 
 %% 
@@ -326,13 +328,16 @@
 \ifauthsec@marginsections%
 \KOMAoption{numbers}{noendperiod}
 \renewcommand\sectionlinesformat[4]{%
+% Ensure that there is at least 1/3 of the page available to print on before setting a section. If this is not the case, start a new page.
+% This also helps in correctly choosing the even/odd page section layout in edge cases.
+\needspace{.33\textheight}
   \Ifthispageodd{%
-    \raggedleft#4\makebox[0pt][l]{\hspace*{\marginparsep}\textcolor{colorsectionnumber}{#3}}%
+    \raggedleft#4\makebox[0pt][l]{\hspace*{\marginparsep}\relax\textcolor{colorsectionnumber}{#3}}%
   }{%
     %% \fontdimen2\font gives the width of the 'n' character in the current font, which is the same as \enskip
     %% That value is removed, as this is auto inserted after the section command (as defined in the sectionformat)
     %% e.g. \renewcommand\sectionformat{\thesection\autodot\enskip}
-    \raggedright\makebox[0pt][r]{\textcolor{colorsectionnumber}{#3}\hspace*{\dimexpr\marginparsep-\fontdimen2\font}}#4%
+    \raggedright\makebox[0pt][r]{\textcolor{colorsectionnumber}{#3}\hspace*{\dimexpr\marginparsep-\fontdimen2\font}\relax}#4%
   }%
 }%
 \fi%
