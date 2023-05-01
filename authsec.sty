@@ -20,7 +20,7 @@
 \RequirePackage{titling}
 \RequirePackage[section]{placeins} %set all floating objects before a new section starts
 \RequirePackage{needspace} % ensure a certain amount of space on a page (used for starting a section only if at least x amount of the page is available)
-\RequirePackage{parskip}
+\RequirePackage{xcolor}
 \RequirePackage{iftex,ifxetex,ifluatex}
 %% Provide \ifxetexorluatex
 \newif\ifxetexorluatex%
@@ -94,7 +94,8 @@
 \RequirePackage[style=iso]{datetime2}
 \RequirePackage{menukeys}
 \RequirePackage{tikz}
-\RequirePackage{awesomebox}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{fontawesome5}
 \RequirePackage{calc}
 
 % Change Verbatim environment
@@ -159,6 +160,7 @@
     bibliography=totoc%
 }
 \KOMAoption{chapterprefix}{true}
+\KOMAoption{parskip}{half}
 
 %% Define colors
 \definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
@@ -189,6 +191,59 @@
 %     Department name \\
 %     \texttt{email2@example.com}
 % }
+
+%% Custom blocks
+%% Primary base color FF8D00 (orange)
+\definecolor{noteblockcolor}{HTML}{192DFF}
+\definecolor{cautionblockcolor}{HTML}{FF4B0D}
+
+%% derive color so we can lighten them
+\colorlet{tcbnoteblockcolor}{noteblockcolor!40}
+\colorlet{tcbcautionblockcolor}{cautionblockcolor!40}
+
+\newtcolorbox{noteblock}[2][]{% empty,
+sharp corners, enhanced, attach boxed title to top left, 
+boxed title style={% 
+    empty, left=0pt, right=0pt, 
+    frame code ={
+        \foreach \i [evaluate=\i as \ni using \i+2,
+            count=\xi from 0, evaluate=\xi as \op using 1-2*\xi/10] in {10,11,12,13}{ 
+            \draw[line width=.5mm,tcbnoteblockcolor, opacity=\op]([xshift=\i mm]frame.north east)--([xshift=\ni mm]frame.east)
+            --([xshift=\i mm]frame.south east);}
+    }
+}, 
+underlay boxed title={%
+    \path([xshift=2.25ex]title.east) node[inner sep=0pt,text=black, font=\Large\fontfamily{bch}] (number) {\color{tcbnoteblockcolor}\faIcon{marker}};
+    \fill[fill=tcbnoteblockcolor](title.south west)--(title.north west)--(title.north east)--(title.south east); 
+    \draw[tcbnoteblockcolor, rounded corners=1mm] ([yshift=-.5\pgflinewidth]title.north east) -| ([xshift=2mm]number.east) [sharp corners]|- (title.south west);
+},
+frame hidden,
+borderline west={1.5pt}{0pt}{tcbnoteblockcolor}, 
+borderline south={1.5pt}{0pt}{tcbnoteblockcolor}, colback=white, coltitle=white, title={#2}, 
+overlay={\draw[line width=1.5pt, tcbnoteblockcolor] (frame.south east)--++(90:5mm);}
+}
+
+\newtcolorbox{cautionblock}[2][]{% empty,
+sharp corners, enhanced, attach boxed title to top left, 
+boxed title style={% 
+    empty, left=0pt, right=0pt, 
+    frame code ={
+        \foreach \i [evaluate=\i as \ni using \i+2,
+            count=\xi from 0, evaluate=\xi as \op using 1-2*\xi/10] in {10,11,12,13}{ 
+            \draw[line width=.5mm,tcbcautionblockcolor, opacity=\op]([xshift=\i mm]frame.north east)--([xshift=\ni mm]frame.east)
+            --([xshift=\i mm]frame.south east);}
+    }
+}, 
+underlay boxed title={%
+    \path([xshift=2.25ex]title.east) node[inner sep=0pt,text=black, font=\Large\fontfamily{bch}] (number) {\color{tcbcautionblockcolor}\faIcon{marker}};
+    \fill[fill=tcbcautionblockcolor](title.south west)--(title.north west)--(title.north east)--(title.south east); 
+    \draw[tcbcautionblockcolor, rounded corners=1mm] ([yshift=-.5\pgflinewidth]title.north east) -| ([xshift=2mm]number.east) [sharp corners]|- (title.south west);
+},
+frame hidden,
+borderline west={1.5pt}{0pt}{tcbcautionblockcolor}, 
+borderline south={1.5pt}{0pt}{tcbcautionblockcolor}, colback=white, coltitle=white, title={#2}, 
+overlay={\draw[line width=1.5pt, tcbcautionblockcolor] (frame.south east)--++(90:5mm);}
+}
 
 \newcommand\titlepagedecoration{%
 \begin{tikzpicture}[remember picture,overlay,shorten >= -10pt]
