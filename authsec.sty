@@ -19,7 +19,8 @@
 \RequirePackage{minted}
 \RequirePackage{titling}
 \RequirePackage[section]{placeins} %set all floating objects before a new section starts
-\RequirePackage{needspace} % ensure a certain amount of space on a page (used for starting a section only if at least 1/3 of the page is available)
+\RequirePackage{needspace} % ensure a certain amount of space on a page (used for starting a section only if at least x amount of the page is available)
+\RequirePackage{parskip}
 \RequirePackage{iftex,ifxetex,ifluatex}
 %% Provide \ifxetexorluatex
 \newif\ifxetexorluatex%
@@ -328,9 +329,9 @@
 \ifauthsec@marginsections%
 \KOMAoption{numbers}{noendperiod}
 \renewcommand\sectionlinesformat[4]{%
-% Ensure that there is at least 1/3 of the page available to print on before setting a section. If this is not the case, start a new page.
+% Ensure that there is at least x amount of the page available to print on before setting a section. If this is not the case, start a new page.
 % This also helps in correctly choosing the even/odd page section layout in edge cases.
-\needspace{.33\textheight}
+\needspace{.05\textheight}
   \Ifthispageodd{%
     \raggedleft#4\makebox[0pt][l]{\hspace*{\marginparsep}\relax\textcolor{colorsectionnumber}{#3}}%
   }{%
