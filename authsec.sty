@@ -10,6 +10,7 @@
 
 \RequirePackage{graphicx}
 \RequirePackage{longtable}
+\RequirePackage{booktabs}
 \RequirePackage{wrapfig}
 \RequirePackage{rotating}
 \RequirePackage[normalem]{ulem}
@@ -69,7 +70,7 @@
 \RequirePackage{csquotes}
 \RequirePackage{pdflscape}
 
-% Select/setup fonts
+% Select/setup font imports
 \ifxetexorluatex%
   \RequirePackage{fontspec}
   %\message{[EmRE] loaded language: '\authsec@language' with options '\authsec@languageoptions'.}
@@ -146,6 +147,9 @@
 % **************************************************
 % Page construction
 % **************************************************
+% Style listing font ??? 
+% \setkomafont{lstlisting}{\ttfamily}
+\KOMAoption{fontsize}{10pt}
 \KOMAoption{headinclude}{false}     % include header in body?
 \KOMAoption{footinclude}{false}      % include footer in body?
 \KOMAoption{footlines}{2.1}         % number of foot lines
@@ -168,13 +172,26 @@
 \definecolor{colorsectionnumber}{cmyk}{.0, .0, .0, .17}
 \colorlet{colorchapterline}{colorchapternumber!45}
 
+%% Define fonts
+\ifxetexorluatex%
+  \newfontfamily\emretitlefont{Julius Sans One}
+  \newfontfamily\emrechapterfont[Scale=1.728]{Orbitron}
+  \newfontfamily\emresectionfont[Scale=1.44]{Orbitron}
+  \newfontfamily\emresubsectionfont[Scale=1.2]{Orbitron}
+  \newfontfamily\emresubsubsectionfont[Scale=1.095]{Orbitron}
+\else%
+  %% Font setup much simpler if used with latex.
+  \DeclareFixedFont{\emretitlefont}{T1}{ppl}{b}{it}{0.5in}
+  \DeclareFixedFont{\emrechapterfont}{T1}{ppl}{b}{md}{\Huge}
+  \DeclareFixedFont{\emresectionfont}{T1}{ppl}{b}{md}{\Large}
+  \DeclareFixedFont{\emresubsectionfont}{T1}{ppl}{b}{md}{\Large}
+  \DeclareFixedFont{\emresubsubsectionfont}{T1}{ppl}{b}{md}{\Large}
+\fi%
 
 \renewcommand*{\dictumwidth}{.5\textwidth}
 %% *************************
 %% Title Page
 %% *************************
-
-\DeclareFixedFont{\titlefont}{T1}{ppl}{b}{it}{0.5in}
 
 \newcommand{\printauthor}{%
     % author needs to be set anyway, as it is required by the classes.
@@ -235,7 +252,7 @@ boxed title style={%
     }
 }, 
 underlay boxed title={%
-    \path([xshift=2.25ex]title.east) node[inner sep=0pt,text=black, font=\Large\fontfamily{bch}] (number) {\color{tcbcautionblockcolor}\faIcon{radiation}};
+    \path([xshift=2.25ex]title.east) node[inner sep=0pt,text=black, font=\Large\fontfamily{bch}] (number) {\color{tcbcautionblockcolor}\faIcon{exclamation-triangle}};
     \fill[fill=tcbcautionblockcolor](title.south west)--(title.north west)--(title.north east)--(title.south east); 
     \draw[tcbcautionblockcolor, rounded corners=1mm] ([yshift=-.5\pgflinewidth]title.north east) -| ([xshift=2mm]number.east) [sharp corners]|- (title.south west);
 },
@@ -293,7 +310,7 @@ overlay={\draw[line width=1.5pt, tcbcautionblockcolor] (frame.south east)--++(90
 \pagenumbering{roman}
 \thispagestyle{empty}
 \noindent
-\titlefont\@title\normalfont%
+{\emretitlefont\fontsize{30pt}{30pt}\selectfont\@title}%
 \vspace*{2em}
 \ifdefempty\authsec@titlepagedictumtext{%
   % Do nothing if empty
@@ -333,7 +350,7 @@ overlay={\draw[line width=1.5pt, tcbcautionblockcolor] (frame.south east)--++(90
 \AtBeginEnvironment{abstract}{
   \def\sectfont{\LARGE\selectfont}
 }
-
+  
 % **************************************************
 % Text Format
 % **************************************************
@@ -350,34 +367,63 @@ overlay={\draw[line width=1.5pt, tcbcautionblockcolor] (frame.south east)--++(90
 \displaywidowpenalty=10000%
 \raggedbottom%
 
-\renewcommand\raggedchapter{\Ifthispageodd{}{\raggedleft}}
+\renewcommand\raggedchapter{\Ifthispageodd{\raggedleft}{\raggedright}}
 %% Redefine Chapter
 \RedeclareSectionCommand[%
   beforeskip=1sp,%
   afterindent=false,%
-  font=\huge\mdseries%
+  runin=false,%
+  font=\emrechapterfont%
   ]{chapter}
 
 \renewcommand*{\chapterformat}{%
   \Ifthispageodd{%
      \hfill\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}}%
-     \rlap{\textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{\marginparsep}\thechapter}}%
+     \rlap{\textcolor{colorchapternumber}{\fontsize{30pt}{30pt}\selectfont\hspace{\marginparsep}\thechapter}}%
    }{%
-     \flushleft\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}%
-     \textcolor{colorchapternumber}{\fontsize{60pt}{60pt}\selectfont\hspace{-\marginparsep-\widthof{\thechapter}}\thechapter}%
+     \textcolor{colorchapternumber}{\fontsize{30pt}{30pt}\selectfont\hspace{-\marginparsep-\widthof{\thechapter}}\thechapter}%
+     \hspace{\marginparsep}\smash{\textcolor{colorchapterline}{\rule{2pt}{10cm}}%
      }%
    }
 }%
 
 \renewcommand*\chapterlinesformat[3]{%
-\Ifstr{#1}{chapter}{%
-    \parbox[b]{\dimexpr\textwidth\relax}{\raggedchapter #3}%
-    \hfill
-    #2
-}{%
-  \@hangfrom{#2}{#3}% original definition for other levels
+  \Ifstr{#1}{chapter}{%
+    \Ifthispageodd{%
+      % Formatting for odd pages
+      \parbox[b]{\dimexpr\textwidth\relax}{\raggedchapter #3}%
+      %\hfill
+      #2
+    }{%
+      % Formatting for even pages
+      #2%\hfill
+      \parbox[t]{\dimexpr\textwidth\relax}{\raggedchapter #3}%
+    }
+  }{%
+    \@hangfrom{#2}{#3}% original definition for other levels
+  }
 }
-}
+
+%% Redefine Chapter
+\RedeclareSectionCommand[%
+  beforeskip=1sp,%
+  afterindent=false,%
+  font=\emresectionfont%
+]{section}
+
+%% Redefine Chapter
+\RedeclareSectionCommand[%
+  beforeskip=1sp,%
+  afterindent=false,%
+  font=\emresubsectionfont%
+]{subsection}
+
+%% Redefine Chapter
+\RedeclareSectionCommand[%
+  beforeskip=1sp,%
+  afterindent=false,%
+  font=\emresubsubsectionfont%
+]{subsubsection}
 
 %% 
 \makeatletter
