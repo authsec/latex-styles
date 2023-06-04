@@ -174,11 +174,35 @@
 
 %% Define fonts
 \ifxetexorluatex%
-  \newfontfamily\emretitlefont{Julius Sans One}
+  \setsansfont{Exo 2}
+  \setmainfont{Lato Light}
+  \setmonofont[Scale=0.955,StylisticSet=8,Ligatures={Discretionary}]{IosevkaTerm NF Light}
+
+  \newfontfamily\emretitlefont[Style=Light,Scale=1.44]{Exo 2} % Cabin Sketch
   \newfontfamily\emrechapterfont[Scale=1.728]{Orbitron}
-  \newfontfamily\emresectionfont[Scale=1.44]{Orbitron}
-  \newfontfamily\emresubsectionfont[Scale=1.2]{Orbitron}
-  \newfontfamily\emresubsubsectionfont[Scale=1.095]{Orbitron}
+  \newfontfamily\emrechapterfonttoc{Orbitron}
+  \newfontfamily\emresectionfont[Scale=1.44]{Exo 2}
+  \newfontfamily\emresectionfonttoc[Style=Light]{Exo 2}
+  \newfontfamily\emresubsectionfont[Scale=1.2]{Exo 2}
+  \newfontfamily\emresubsectionfonttoc{Exo 2}
+  \newfontfamily\emresubsubsectionfont[Scale=1.095]{Exo 2}
+  \newfontfamily\emresubsubsectionfonttoc{Exo}
+  \newfontfamily\emredictumfont[Scale=1]{Kavivanar}
+  \newfontfamily\emredictumauthorfont[Scale=1.5]{Estonia}
+  \newfontfamily\emrefigurefont{Lato Light}
+  \newfontfamily\emrenotefont[Scale=1.15]{Cabin Sketch}
+  \newfontfamily\emrecautionfont[Scale=1.15]{Cabin Sketch}
+  \newfontfamily\emredescriptionfont{Exo 2}
+
+  \setkomafont{dictum}{\emredictumfont}
+  \setkomafont{dictumauthor}{\emredictumauthorfont}
+  % Customize the font of the description environment
+  \setkomafont{descriptionlabel}{\emredescriptionfont}
+  %\setkomafont{disposition}{\emresectionfonttoc}
+  % \setkomafont{section}{\emresectionfonttoc} % Font for section headings in the document
+  % \setkomafont{sectionentry}{\emresectionfonttoc} % Font for section entries in TOC
+  % \setkomafont{subsection}{\emresectionfonttoc} % Font for subsection headings in the document
+  % \setkomafont{subsectionentry}{\emresectionfonttoc} % Font for subsection entries in TOC
 \else%
   %% Font setup much simpler if used with latex.
   \DeclareFixedFont{\emretitlefont}{T1}{ppl}{b}{it}{0.5in}
@@ -186,6 +210,7 @@
   \DeclareFixedFont{\emresectionfont}{T1}{ppl}{b}{md}{\Large}
   \DeclareFixedFont{\emresubsectionfont}{T1}{ppl}{b}{md}{\Large}
   \DeclareFixedFont{\emresubsubsectionfont}{T1}{ppl}{b}{md}{\Large}
+  \DeclareFixedFont{\emredictumfont}{T1}{ppl}{b}{it}{}
 \fi%
 
 \renewcommand*{\dictumwidth}{.5\textwidth}
@@ -220,6 +245,7 @@
 
 \newtcolorbox{noteblock}[2][]{% empty,
 sharp corners, enhanced, attach boxed title to top left, 
+fonttitle=\emrenotefont,
 boxed title style={% 
     empty, left=0pt, right=0pt, 
     frame code ={
@@ -242,6 +268,7 @@ overlay={\draw[line width=1.5pt, tcbnoteblockcolor] (frame.south east)--++(90:5m
 
 \newtcolorbox{cautionblock}[2][]{% empty,
 sharp corners, enhanced, attach boxed title to top left, 
+fonttitle=\emrecautionfont,
 boxed title style={% 
     empty, left=0pt, right=0pt, 
     frame code ={
@@ -372,9 +399,13 @@ overlay={\draw[line width=1.5pt, tcbcautionblockcolor] (frame.south east)--++(90
 \RedeclareSectionCommand[%
   beforeskip=1sp,%
   afterindent=false,%
-  runin=false,%
   font=\emrechapterfont%
-  ]{chapter}
+]{chapter}
+\DeclareTOCStyleEntries[%
+  pagenumberformat=\emrechapterfonttoc,%
+  entryformat=\emrechapterfonttoc,%
+  entrynumberformat=\emrechapterfonttoc%
+]{tocline}{chapter}%
 
 \renewcommand*{\chapterformat}{%
   \Ifthispageodd{%
@@ -410,6 +441,11 @@ overlay={\draw[line width=1.5pt, tcbcautionblockcolor] (frame.south east)--++(90
   afterindent=false,%
   font=\emresectionfont%
 ]{section}
+\DeclareTOCStyleEntries[%
+  pagenumberformat=\emresectionfonttoc,%
+  entryformat=\emresectionfonttoc,%
+  entrynumberformat=\emresectionfonttoc%
+]{tocline}{section}%
 
 %% Redefine Chapter
 \RedeclareSectionCommand[%
@@ -417,6 +453,11 @@ overlay={\draw[line width=1.5pt, tcbcautionblockcolor] (frame.south east)--++(90
   afterindent=false,%
   font=\emresubsectionfont%
 ]{subsection}
+\DeclareTOCStyleEntries[%
+  pagenumberformat=\emresubsectionfonttoc,%
+  entryformat=\emresubsectionfonttoc,%
+  entrynumberformat=\emresubsectionfonttoc%
+]{tocline}{subsection}%
 
 %% Redefine Chapter
 \RedeclareSectionCommand[%
@@ -424,8 +465,19 @@ overlay={\draw[line width=1.5pt, tcbcautionblockcolor] (frame.south east)--++(90
   afterindent=false,%
   font=\emresubsubsectionfont%
 ]{subsubsection}
+\DeclareTOCStyleEntries[%
+  pagenumberformat=\emresubsubsectionfonttoc,%
+  entryformat=\emresubsubsectionfonttoc,%
+  entrynumberformat=\emresubsubsectionfonttoc%
+]{tocline}{subsubsection}%
 
-%% 
+\DeclareTOCStyleEntries[%
+  pagenumberformat=\emrefigurefont,%
+  entryformat=\emrefigurefont,%
+  entrynumberformat=\emrefigurefont%
+]{tocline}{figure,table,listing}%
+%%
+
 \makeatletter
 \ifauthsec@marginsections%
 \KOMAoption{numbers}{noendperiod}
