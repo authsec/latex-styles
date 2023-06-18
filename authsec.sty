@@ -176,11 +176,11 @@
 \ifxetexorluatex%
   \setsansfont{Exo 2}
   \setmainfont{Lato Light}
-  \setmonofont[Scale=0.955,StylisticSet=8,Ligatures={Discretionary}]{IosevkaTerm NF Light}
+  \setmonofont[Scale=0.95,StylisticSet=8,Ligatures={Discretionary}]{IosevkaTerm NF ExtraLight}
 
   \newfontfamily\emretitlefont[Style=Light,Scale=1.44]{Exo 2} % Cabin Sketch
   \newfontfamily\emrechapterfont[Scale=1.728]{Orbitron}
-  \newfontfamily\emrechapterfonttoc{Orbitron}
+  \newfontfamily\emrechapterfonttoc{Exo 2}
   \newfontfamily\emresectionfont[Scale=1.44]{Exo 2}
   \newfontfamily\emresectionfonttoc[Style=Light]{Exo 2}
   \newfontfamily\emresubsectionfont[Scale=1.2]{Exo 2}
@@ -193,6 +193,8 @@
   \newfontfamily\emrenotefont[Scale=1.15]{Cabin Sketch}
   \newfontfamily\emrecautionfont[Scale=1.15]{Cabin Sketch}
   \newfontfamily\emredescriptionfont{Exo 2}
+  \newfontfamily\emreauthorfont[Style=Light]{Exo 2}
+  \newfontfamily\emreauthormailfont[Scale=0.95,StylisticSet=8,Ligatures={Discretionary}]{IosevkaTerm NF Light}
 
   \setkomafont{dictum}{\emredictumfont}
   \setkomafont{dictumauthor}{\emredictumauthorfont}
@@ -220,10 +222,10 @@
 
 \newcommand{\printauthor}{%
     % author needs to be set anyway, as it is required by the classes.
-    {\Large \faUser~\theauthor}%
+    {\Large \faUser~\emreauthorfont\selectfont\theauthor}%
     \ifdefempty{\email}{}{%
       %add line break and eMail if this is set
-      {\\\large\faAt~\email}
+      {\\\faAt~\emreauthormailfont\selectfont\email}
     }
 }
 
